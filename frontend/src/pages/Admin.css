@@ -1,0 +1,50 @@
+.admin-container {
+    padding: 40px;
+}
+
+.admin-form {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.admin-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.admin-form button {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.admin-form button:hover {
+    background: #334155;
+}
+
+.success {
+    color: green;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}

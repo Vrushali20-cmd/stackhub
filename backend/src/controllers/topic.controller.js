@@ -54,13 +54,16 @@ export const getTopicsByCategory = async (req, res) => {
     const search = req.query.search;
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
+    const sort = req.query.sort || "latest";
 
     const skip = (page - 1) * limit;
 
+    // base query
     const query = {
       category: categoryId,
     };
 
+    // search filter (optional)
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: "i" } },
@@ -68,22 +71,42 @@ export const getTopicsByCategory = async (req, res) => {
       ];
     }
 
+    // sorting logic
+    let sortQuery = { createdAt: -1 }; // default = latest
+
+    if (sort === "oldest") {
+      sortQuery = { createdAt: 1 };
+    }
+
+    if (sort === "difficulty") {
+      sortQuery = { difficulty: 1 };
+    }
+
     const totalTopics = await Topic.countDocuments(query);
 
     const topics = await Topic.find(query)
-      .sort({ createdAt: -1 })
+      .sort(sortQuery)
       .skip(skip)
       .limit(limit);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
+      message: "Topics fetched ✅",
+      pagination: {
+        totalTopics,
+        currentPage: page,
+        totalPages: Math.ceil(totalTopics / limit),
+        limit,
+      },
       topics,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
-
 
 
 /**

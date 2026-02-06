@@ -36,9 +36,10 @@ export const registerUser = async (req, res) => {
       success: true,
       message: "User registered successfully ✅",
       user: {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
+       _id: user._id,
+       username: user.username,
+       email: user.email,
+       role: user.role, 
       },
     });
   } catch (error) {
